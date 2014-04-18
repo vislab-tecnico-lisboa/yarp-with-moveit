@@ -1,0 +1,3 @@
+[miguel_vislab/SimpleJointTrajectoryPoint]:
+float64[] positions
+
