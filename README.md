@@ -29,9 +29,9 @@ After completing the download, you should execute some instructions to setup you
     cd [Path to the downloaded folder]/yarp_code
     mkdir build
 
-And now, to finish your setup, you will have to create a catkin workspace to compile and run the ROS modules, run:
+And now, to finish your setup, you will have to create a catkin workspace to compile and run the ROS modules:
 
-    mkdir -p [Choose a location for your catkin workspace]
+    mkdir -p [Choose a location for your catkin workspace]/src
     cd [Path to your catkin workspace]/src
     catkin_init_workspace
     cd [Path to your catkin workspace]
@@ -47,3 +47,15 @@ Save the file and run:
 
     source .bashrc
     cp -a [Path to the downloaded folder]/ros_code/miguel_vislab/ [Path to your catkin workspace]/src/
+
+## Compilation
+
+You have to compile both the ROS and YARP code:
+
+    cd [Path to your catkin workspace]
+    catkin_make
+    cd [Path to the downloaded folder]/yarp_code/build
+    cmake ..
+    make
+
+## Running
