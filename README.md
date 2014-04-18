@@ -79,7 +79,7 @@ You have to compile both the ROS and YARP code:
 
 ## Running
 
-As mentioned on the prerequisites section you should be able to run the other repository with no problems to work with these modules.
+As mentioned on the prerequisites section you should be, at first, able to run the [other repository](https://github.com/vislab-tecnico-lisboa/icub-moveit) with no problems to work with these modules.
 
 If you have followed everything as stated in here, you should now be able to run all the modules!
 
