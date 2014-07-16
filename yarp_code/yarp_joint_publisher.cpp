@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   
-  yarp.connect("/icubSim/left_arm/state:o",inPort.getName());
+  yarp.connect("/icubSim/right_arm/state:o",inPort.getName());
 
   printf("\n\n WAIT FOR JOINT PUBLISHER CONFIGURATION \n\n");
   for(int i = 0; i <= 10; i++) {
