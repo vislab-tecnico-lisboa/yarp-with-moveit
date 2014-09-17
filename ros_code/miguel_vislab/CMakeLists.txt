@@ -46,3 +46,7 @@ add_dependencies(dummie_controller miguel_vislab_generate_messages_cpp)
 add_executable(planner src/planner.cpp)
 target_link_libraries(planner ${catkin_LIBRARIES})
 add_dependencies(planner miguel_vislab_generate_messages_cpp)
+
+add_executable(redirect_costmap src/redirect_costmap.cpp)
+target_link_libraries(redirect_costmap ${catkin_LIBRARIES})
+add_dependencies(redirect_costmap miguel_vislab_generate_messages_cpp)

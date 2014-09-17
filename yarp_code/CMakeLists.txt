@@ -17,9 +17,11 @@ add_executable(apply_trajectory apply_trajectory.cpp)
 add_executable(yarp_joint_publisher yarp_joint_publisher.cpp)
 add_executable(yarp_joint_publisher_icub yarp_joint_publisher_icub.cpp)
 add_executable(apply_trajectory_problem apply_trajectory_problem.cpp)
+add_executable(apply_trajectory_direct apply_trajectory_direct.cpp)
 
 # link with YARP libraries
 target_link_libraries(apply_trajectory ${YARP_LIBRARIES})
 target_link_libraries(yarp_joint_publisher ${YARP_LIBRARIES})
 target_link_libraries(yarp_joint_publisher_icub ${YARP_LIBRARIES})
 target_link_libraries(apply_trajectory_problem ${YARP_LIBRARIES})
+target_link_libraries(apply_trajectory_direct ${YARP_LIBRARIES})
