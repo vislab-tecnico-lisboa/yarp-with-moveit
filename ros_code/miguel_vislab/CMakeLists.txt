@@ -50,3 +50,33 @@ add_dependencies(planner miguel_vislab_generate_messages_cpp)
 add_executable(redirect_costmap src/redirect_costmap.cpp)
 target_link_libraries(redirect_costmap ${catkin_LIBRARIES})
 add_dependencies(redirect_costmap miguel_vislab_generate_messages_cpp)
+
+find_package(Qt4 QUIET)
+
+if(NOT QT4_FOUND)
+  message("-- ")
+  message("-- drive_base for using the joystick will not be built: Qt4 not found")
+  message("-- ")
+endif(NOT QT4_FOUND)
+
+find_package(SDL QUIET)
+
+if(NOT SDL_FOUND)
+  message("-- ")
+  message("-- drive_base for using the joystick will not be built: SDL not found")
+  message("-- ")
+endif(NOT SDL_FOUND)
+
+if(QT4_FOUND AND SDL_FOUND)
+  message("-- Building drive_base for using the joystick")
+  include(${QT_USE_FILE})
+  include_directories(${CMAKE_CURRENT_BINARY_DIR})
+  add_definitions(${QT_DEFINITIONS})
+
+  include_directories(${SDL_INCLUDE_DIR})
+
+  add_executable(drive_base src/drive_base.cpp)
+  target_link_libraries(drive_base ${catkin_LIBRARIES} ${QT_LIBRARIES} ${SDL_LIBRARY})
+  add_dependencies(drive_base miguel_vislab_generate_messages_cpp)
+
+endif(QT4_FOUND AND SDL_FOUND)
