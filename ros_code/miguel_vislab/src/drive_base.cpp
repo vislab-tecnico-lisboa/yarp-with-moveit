@@ -3,7 +3,6 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <SDL/SDL.h>
-#include <QtCore/QMutex>
 
 #define JOY_DEADBAND 3200
 #define JOY_MAX_VALUE 32768
@@ -17,7 +16,7 @@ private:
   ros::Publisher cmd_vel_pub_;
 
   SDL_Joystick * joystick_;
-  QMutex joy_mutex_;
+  int cancelButton, pauseButton, upDownAxe, leftRightAxe;
 
 public:
   //! ROS node initialization
@@ -81,24 +80,122 @@ public:
     SDL_Init(SDL_INIT_JOYSTICK);
     SDL_JoystickEventState(SDL_ENABLE);
 
-    std::cout << "Configuring your joystick, " << SDL_JoystickName(0) << ", please wait!\n";
+    if(SDL_JoystickName(0) == NULL) {
+      std::cout << "\nI'm sorry but I couldn't find any joystick, please try again or contact the developer at miguelaragao91@gmail.com, thank you :)\n\n";
+      return -1;
+    } else {
+      std::cout << "\nI just found a joystick with the name, " << SDL_JoystickName(0) << ", please wait while opening it... ";
+      cancelButton = pauseButton = upDownAxe = leftRightAxe = -1;
+    }
 
     this->joystick_ = SDL_JoystickOpen(0);
-    size_t num_axes = SDL_JoystickNumAxes(this->joystick_);
 
-    std::cout << "This joystick has: " << num_axes << " axes!\n";
-    this->joy_mutex_.lock();
+    std::cout << "Success!\n\nNow it is time to configure your joystick's buttons and axes, please complete the following instructions:\n";
     // If the joystick isn't there do nothing
     if (!this->joystick_) {
-        this->joy_mutex_.unlock();
+        std::cout << "\n\n\n\nI'm sorry but I couldn't connect and open your joystick, please try again or contact the developer at miguelaragao91@gmail.com, thank you :)\n\n";
         return -1;
     }
 
-     while(SDL_WaitEvent(&event) >= 0) {
+    int numButtons = SDL_JoystickNumButtons(this->joystick_);
+    std::cout << "- Press the button you want to define as the cancel button:\n";
+    while(SDL_WaitEvent(&event) >= 0) {
       SDL_JoystickUpdate();
-      int lv_i = SDL_JoystickGetAxis(this->joystick_, 3);
-      int av_i = SDL_JoystickGetAxis(this->joystick_, 2);
-      this->joy_mutex_.unlock();
+      for(int i = 0; i < numButtons; i++) {
+        if(SDL_JoystickGetButton(this->joystick_, i) == 1) {
+          std::cout << "\nThank you, please wait while setting it...\n";
+          cancelButton = i;
+          ros::Duration d = ros::Duration(1);
+          d.sleep();
+          std::cout << "Success! You can now cancel execution at any time by pressing the cancel button.\n";
+          break;
+        }
+      }
+      if(cancelButton != -1)
+        break;
+      ros::Duration d = ros::Duration(0.1);
+      d.sleep();
+    }
+
+    size_t num_axes = SDL_JoystickNumAxes(this->joystick_);
+    std::cout << "\n\n- Move the axis you want to define as the axis for forward and backward movements:\n";
+    while(SDL_WaitEvent(&event) >= 0) {
+      SDL_JoystickUpdate();
+      int button = SDL_JoystickGetButton(this->joystick_, cancelButton);
+      if(button == 1) {
+        SDL_JoystickClose(0);
+        std::cout << "\n\nTurning your joystick off, please wait...\n";
+        geometry_msgs::Twist close_cmd;
+        close_cmd.linear.x = close_cmd.linear.y = close_cmd.angular.z = 0;
+        cmd_vel_pub_.publish(close_cmd);
+        ros::Duration d = ros::Duration(1);
+        d.sleep();
+        std::cout << "\nJoystick was properly turned off, closing now!\n\n";
+        return -1;
+      }
+      for(int i = 0; i < numButtons; i++) {
+        if(SDL_JoystickGetAxis(this->joystick_, i) != 0 && SDL_JoystickGetAxis(this->joystick_, i) != -0) {
+          std::cout << "\nThank you, please wait while setting it...\n";
+          upDownAxe = i;
+          ros::Duration d = ros::Duration(1);
+          d.sleep();
+          std::cout << "Success!\n";
+          break;
+        }
+      }
+      if(upDownAxe != -1)
+        break;
+      ros::Duration d = ros::Duration(0.1);
+      d.sleep();
+    }
+
+    std::cout << "\n\n- Move the axis you want to define as the axis for left and right movements:\n";
+    while(SDL_WaitEvent(&event) >= 0) {
+      SDL_JoystickUpdate();
+      int button = SDL_JoystickGetButton(this->joystick_, cancelButton);
+      if(button == 1) {
+        SDL_JoystickClose(0);
+        std::cout << "\n\nTurning your joystick off, please wait...\n";
+        geometry_msgs::Twist close_cmd;
+        close_cmd.linear.x = close_cmd.linear.y = close_cmd.angular.z = 0;
+        cmd_vel_pub_.publish(close_cmd);
+        ros::Duration d = ros::Duration(1);
+        d.sleep();
+        std::cout << "\nJoystick was properly turned off, closing now!\n\n";
+        return -1;
+      }
+      for(int i = 0; i < numButtons; i++) {
+        if(SDL_JoystickGetAxis(this->joystick_, i) != 0 && SDL_JoystickGetAxis(this->joystick_, i) != -0) {
+          std::cout << "\nThank you, please wait while setting it...\n";
+          leftRightAxe = i;
+          ros::Duration d = ros::Duration(1);
+          d.sleep();
+          std::cout << "Success!\n";
+          break;
+        }
+      }
+      if(leftRightAxe != -1)
+        break;
+      ros::Duration d = ros::Duration(0.1);
+      d.sleep();
+    }
+
+    while(SDL_WaitEvent(&event) >= 0) {
+      SDL_JoystickUpdate();
+      int button = SDL_JoystickGetButton(this->joystick_, cancelButton);
+      if(button == 1) {
+        SDL_JoystickClose(0);
+        std::cout << "\n\nTurning your joystick off, please wait...\n";
+        geometry_msgs::Twist close_cmd;
+        close_cmd.linear.x = close_cmd.linear.y = close_cmd.angular.z = 0;
+        cmd_vel_pub_.publish(close_cmd);
+        ros::Duration d = ros::Duration(1);
+        d.sleep();
+        std::cout << "\nJoystick was properly turned off, closing now!\n\n";
+        return -1;
+      }
+      int lv_i = SDL_JoystickGetAxis(this->joystick_, upDownAxe);
+      int av_i = SDL_JoystickGetAxis(this->joystick_, leftRightAxe);
       // Deadband
       if (lv_i > -JOY_DEADBAND && lv_i < JOY_DEADBAND) {
           lv_i = 0;
@@ -122,6 +219,9 @@ public:
 
       //std::cout << "Axe number 3: " << lv << "!\n";
       //std::cout << "Axe number 2: " << av << "!\n";
+
+      ros::Duration d = ros::Duration(0.1);
+      d.sleep();
     }
   }
 
