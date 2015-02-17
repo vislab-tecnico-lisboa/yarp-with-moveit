@@ -51,6 +51,10 @@ add_executable(redirect_costmap src/redirect_costmap.cpp)
 target_link_libraries(redirect_costmap ${catkin_LIBRARIES})
 add_dependencies(redirect_costmap miguel_vislab_generate_messages_cpp)
 
+add_executable(vizzy_joint_publisher src/vizzy_joint_publisher.cpp)
+target_link_libraries(vizzy_joint_publisher ${catkin_LIBRARIES})
+add_dependencies(vizzy_joint_publisher miguel_vislab_generate_messages_cpp)
+
 find_package(SDL QUIET)
 
 if(NOT SDL_FOUND)
