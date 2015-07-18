@@ -1,7 +1,6 @@
 #include <yarp/os/all.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <SimpleJointTrajectoryPoint.h>
 #include <SimpleTrajectory.h>
 #include <yarp/dev/ControlBoardInterfaces.h>
 #include <yarp/dev/PolyDriver.h>
@@ -23,13 +22,13 @@ int main(int argc, char *argv[]) {
   // We'll send "Bottles" (a simple nested list container) between these ports
   BufferedPort<Bottle> inPort;
   bool ok = inPort.open("/yarp_to_ros/yarp_receiver");
-  yarp.connect("/icubSim/right_arm/state:o",inPort.getName());
+  yarp.connect("/icubSim/left_arm/state:o",inPort.getName());
   
   /* Preparing a set of configuration parameters */
   Property options;
   options.put("device", "remote_controlboard");
   options.put("local", "/test/client");           //local port names
-  options.put("remote", "/icubSim/right_arm");    //where we connect to
+  options.put("remote", "/icubSim/left_arm");    //where we connect to
   
   /* Creating the PolyDriver */
   PolyDriver robotDevice(options);
@@ -59,6 +58,7 @@ int main(int argc, char *argv[]) {
   //miguel pos->getAxes(&jnts);
   posArm->getAxes(&jnts);
   printf("\n[DEBUG] Number of joints: %d...\n\n", jnts); // debug
+  jnts = 6;
   
   /* Creating and resizing the vectors needed to interact with the interfaces */
   Vector tmp;
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
 
   VectorOf<int> modes;
   VectorOf<int> jointsToSet;
-  jointsToSet.resize(16);
+  jointsToSet.resize(jnts);
 
   for(int k = 0; k < jnts; k++) {
     jointsToSet[k] = k;
@@ -148,15 +148,6 @@ int main(int argc, char *argv[]) {
       }
       //pos->setRefSpeeds(tmp.data());
       /* Positions of the joints that compose the hand are hardcoded */
-      command_position[7] = 59.000989;
-      command_position[8] = 20.000335;
-      command_position[9] = 20.000335;
-      command_position[10] = 20.000335;
-      command_position[11] = 10.000168;
-      command_position[12] = 10.000168;
-      command_position[13] = 10.000168;
-      command_position[14] = 10.000168;
-      command_position[15] = 10.000168;
       
       Bottle *in = inPort.read();
       for(int j = 0; j < 7; j++) {
@@ -168,9 +159,6 @@ int main(int argc, char *argv[]) {
           velocity = 5;
         printf("Velocity joint number %d: [%f]\n", j, velocity);
         tmp[j] = velocity;
-      }
-      for (int j = 7; j < jnts; j++) {
-        tmp[j] = 0.0;
       }
       //miguel pos->setRefSpeeds(tmp.data());
       /* Moving the joints to the desired positions */
