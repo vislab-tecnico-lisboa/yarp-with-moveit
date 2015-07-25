@@ -28,19 +28,6 @@ int main(int argc, char **argv)
   ros::Subscriber sub = n.subscribe("/icub_feedback", 1000, chatterCallback);
 
   ros::spin();
-  
-  /*while(true) {
-    miguel_vislab::SimpleTrajectory simpleTrajectory;
-    for(int i = 0; i < 30; i++) {
-      //ROS_INFO("I heard: [%d]", i);
-      miguel_vislab::SimpleJointTrajectoryPoint auxPoint;
-      for(int j = 0; j < 7; j++) {
-        auxPoint.positions.push_back(1.0);
-      }
-      simpleTrajectory.points.push_back(auxPoint);
-    }
-    trajectory_pub.publish(simpleTrajectory);
-  }*/
 
   return 0;
 }

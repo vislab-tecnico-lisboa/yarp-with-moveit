@@ -27,33 +27,13 @@ catkin_package(
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-add_executable(talker src/talker.cpp)
-target_link_libraries(talker ${catkin_LIBRARIES})
-add_dependencies(talker miguel_vislab_generate_messages_cpp)
+add_executable(moveit_interface src/moveit_interface.cpp)
+target_link_libraries(moveit_interface ${catkin_LIBRARIES})
+add_dependencies(moveit_interface miguel_vislab_generate_messages_cpp)
 
-add_executable(listener src/listener.cpp)
-target_link_libraries(listener ${catkin_LIBRARIES})
-add_dependencies(listener miguel_vislab_generate_messages_cpp)
-
-add_executable(listener_problem src/listener_problem.cpp)
-target_link_libraries(listener_problem ${catkin_LIBRARIES})
-add_dependencies(listener_problem miguel_vislab_generate_messages_cpp)
-
-add_executable(dummie_controller src/dummie_controller.cpp)
-target_link_libraries(dummie_controller ${catkin_LIBRARIES})
-add_dependencies(dummie_controller miguel_vislab_generate_messages_cpp)
-
-add_executable(planner src/planner.cpp)
-target_link_libraries(planner ${catkin_LIBRARIES})
-add_dependencies(planner miguel_vislab_generate_messages_cpp)
-
-add_executable(redirect_costmap src/redirect_costmap.cpp)
-target_link_libraries(redirect_costmap ${catkin_LIBRARIES})
-add_dependencies(redirect_costmap miguel_vislab_generate_messages_cpp)
-
-add_executable(vizzy_joint_publisher src/vizzy_joint_publisher.cpp)
-target_link_libraries(vizzy_joint_publisher ${catkin_LIBRARIES})
-add_dependencies(vizzy_joint_publisher miguel_vislab_generate_messages_cpp)
+add_executable(moveit_trajectory_publisher src/moveit_trajectory_publisher.cpp)
+target_link_libraries(moveit_trajectory_publisher ${catkin_LIBRARIES})
+add_dependencies(moveit_trajectory_publisher miguel_vislab_generate_messages_cpp)
 
 find_package(SDL QUIET)
 

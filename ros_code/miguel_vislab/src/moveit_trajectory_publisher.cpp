@@ -30,7 +30,7 @@ void chatterCallback(const moveit_msgs::MoveGroupActionResult& msg) {
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "listener");
+  ros::init(argc, argv, "moveit_trajectory_publisher");
 
   ros::NodeHandle n;
 
