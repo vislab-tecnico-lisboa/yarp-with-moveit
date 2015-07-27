@@ -38,7 +38,7 @@ void chatterCallback(const miguel_vislab::FinalPosition& msg) {
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "planner");
+  ros::init(argc, argv, "moveit_interface");
 
   ros::NodeHandle n;
   ros::CallbackQueue my_callback_queue;
@@ -54,58 +54,6 @@ int main(int argc, char **argv)
 
 
 	ros::spin();
-  //ros::spin();
-  
-  //while(true) {
-    
-    //group->setRandomTarget();
-    /*double x_pos, y_pos, z_pos, x_ori, y_ori, z_ori, w_ori;
-    std::cout << "Please enter a double value for the x_pos: ";
-    std::cin >> x_pos;
-    std::cout << "Please enter a double value for the y_pos: ";
-    std::cin >> y_pos;
-    std::cout << "Please enter a double value for the z_pos: ";
-    std::cin >> z_pos;
-    std::cout << "Please enter a double value for the x_ori: ";
-    std::cin >> x_ori;
-    std::cout << "Please enter a double value for the y_ori: ";
-    std::cin >> y_ori;
-    std::cout << "Please enter a double value for the z_ori: ";
-    std::cin >> z_ori;
-    std::cout << "Please enter a double value for the w_ori: ";
-    std::cin >> w_ori;
-    group->setPositionTarget(x_pos, y_pos, z_pos, "right_palm");
-    group->setOrientationTarget(x_ori, y_ori, z_ori, w_ori,"right_palm");*/
-    
-    /*geometry_msgs::Pose target_pose1;
-    target_pose1.orientation.w = 1.0;
-    target_pose1.position.x = 0.28;
-    target_pose1.position.y = -0.7;
-    target_pose1.position.z = 1.0;
-    group->setPoseTarget(target_pose1);*/
-    
-    /*ROS_INFO("0%%...WAITING FOR NEXT PLAN!\n");
-    sleep(1.0);
-    ROS_INFO("10%%...WAITING FOR NEXT PLAN!\n");
-    sleep(2.0);
-    ROS_INFO("20%%...WAITING FOR NEXT PLAN!\n");
-    sleep(1.0);
-    ROS_INFO("30%%...WAITING FOR NEXT PLAN!\n");
-    sleep(1.0);
-    ROS_INFO("40%%...WAITING FOR NEXT PLAN!\n");
-    sleep(1.0);
-    ROS_INFO("50%%...WAITING FOR NEXT PLAN!\n");
-    sleep(1.0);
-    ROS_INFO("60%%...WAITING FOR NEXT PLAN!\n");
-    sleep(1.0);
-    ROS_INFO("70%%...WAITING FOR NEXT PLAN!\n");
-    sleep(1.0);
-    ROS_INFO("80%%...WAITING FOR NEXT PLAN!\n");
-    sleep(1.0);
-    ROS_INFO("90%%...WAITING FOR NEXT PLAN!\n");
-    sleep(1.0);
-    ROS_INFO("100%%...WAITING FOR NEXT PLAN!\n");*/
-  //}
   
   return 0;
 }

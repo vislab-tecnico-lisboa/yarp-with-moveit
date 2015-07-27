@@ -30,7 +30,7 @@ void chatterCallback(const moveit_msgs::MoveGroupActionResult& msg) {
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "listener");
+  ros::init(argc, argv, "moveit_trajectory_publisher");
 
   ros::NodeHandle n;
 
@@ -39,19 +39,6 @@ int main(int argc, char **argv)
   velocity_pub = n.advertise<miguel_vislab::SimpleTrajectory>("left_arm_planned_velocity", 1000);
 
   ros::spin();
-  
-  /*while(true) {
-    miguel_vislab::SimpleTrajectory simpleTrajectory;
-    for(int i = 0; i < 30; i++) {
-      //ROS_INFO("I heard: [%d]", i);
-      miguel_vislab::SimpleJointTrajectoryPoint auxPoint;
-      for(int j = 0; j < 7; j++) {
-        auxPoint.positions.push_back(1.0);
-      }
-      simpleTrajectory.points.push_back(auxPoint);
-    }
-    trajectory_pub.publish(simpleTrajectory);
-  }*/
 
   return 0;
 }
